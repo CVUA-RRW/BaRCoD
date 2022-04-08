@@ -1,0 +1,24 @@
+# Configuration file template
+# Modify the values below as deemed nescessary
+# See README.md in this repository for more informations
+# ------------------------------------------------------------------------------
+
+# Path to the output directory:
+workdir: /path/to/workdir
+
+# Number of threads
+threads: 1
+
+# Input BLAST database
+# Path to the BLAST database, including database basename but no extension
+blast_db: /path/to/BLAST_folder/db_base_name
+# Path to the BLAST taxonomy database (folder)
+taxdb: /path/to/taxdb_folder
+# Path to the nodes.dmp file
+rankedlineage_dmp: /path/to/rankedlineage.dmp
+# Path to the names.dmp file
+nodes_dmp: /path/to/nodes.dmp
+
+# Taxonomy filter
+#  Limit BLAST search to the taxids under the given node
+parent_node: 0

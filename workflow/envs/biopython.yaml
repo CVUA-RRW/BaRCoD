@@ -1,0 +1,7 @@
+name: taxidtools
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+  - biopython=1.79

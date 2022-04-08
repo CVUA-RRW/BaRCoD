@@ -1,0 +1,1 @@
+Histogram of the number of binding sites per primer

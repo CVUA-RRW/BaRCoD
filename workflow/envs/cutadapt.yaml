@@ -1,0 +1,8 @@
+name: trimming
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - cutadapt=3.7
+  - seqtk=1.3

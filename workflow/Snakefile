@@ -1,0 +1,58 @@
+import os
+from snakemake.utils import min_version
+
+# Settings --------------------------------------------------------------------
+
+min_version("6.0") # bump to higher version!
+
+
+shell.executable("bash")
+
+
+configfile: os.path.join(workflow.basedir, "..", ".tests", "config", "config.yaml")
+
+
+# Validating samples in rules/common
+
+
+workdir: config["workdir"]
+
+
+# report: "report/workflow.rst"
+
+
+# Input rule ----------------------------------------------------------------------------------------------------------------
+
+
+rule all:
+    input: 
+        "pairwise_alignment/table.tsv",
+        "reports/recovery_report.tsv",
+        "reports/primer_sites_distribution.tsv",
+        "reports/taxid_barcodes_distribution.tsv",
+        "reports/barcode_size_distribution.tsv",
+        "reports/primer_sites_distribution.pdf",
+        "reports/taxid_barcodes_distribution.pdf",
+        "reports/barcode_size_distribution.pdf",
+        "reports/taxid_wo_barcode.tsv",
+        "reports/primer_sites_distribution.pdf",
+        "reports/taxid_barcodes_distribution.pdf",
+        "reports/barcode_size_distribution.pdf",
+        "reports/dereplication.tsv",
+        "reports/cluster_size.tsv",
+        "reports/distances.tsv",
+        "reports/sequence_lengths.txt",
+        "reports/barcode_stats.tsv",
+        "reports/consensus.tsv",
+
+
+# Workflow ------------------------------------------------------------------------------------------------------------------
+
+
+include: "rules/commons.smk"
+
+include: "rules/extract_barcodes.smk"
+
+include: "rules/pairwise_alignement.smk"
+
+include: "rules/reports.smk"
