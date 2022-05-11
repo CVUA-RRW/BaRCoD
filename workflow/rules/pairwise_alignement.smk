@@ -34,7 +34,7 @@ checkpoint export_sequences:
     output:
         fastadir = directory("fastadump/"),
     params:
-        blast_DB = config["blast_db"],
+        blast_DB = f"barcodes/{generate_db_name()}",
         taxdb = config["taxdb"],
     message: 
         "Exporting sequences"

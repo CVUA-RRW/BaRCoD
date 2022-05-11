@@ -28,7 +28,7 @@ def main(table, taxonomy, outfile, cons_level):
             taxids.extend(list(sub.head(1)["query_taxid"]))
             rank = get_consensus_rank(tax, taxids, cons_level)
             
-            new[f"Consensus rank with {i} mismatches"] = rank
+            new[f"{i} mismatches"] = rank
         
         dfout = pd.concat([dfout, new])
         

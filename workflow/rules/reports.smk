@@ -130,12 +130,8 @@ rule recovery_plots:
                            category="Barcode recovery"),
     conda:
         "../envs/tidyr.yaml"
-    shell:
-        """
-        touch {output.primer_hist_plot}
-        touch {output.barcode_hist_plot}
-        touch {output.size_hist_plot}
-        """
+    script:
+        "../scripts/recovery_plots.R"
 
 
 # Reports for clustering
@@ -186,7 +182,7 @@ rule cluster_size:
         dfout.to_csv(output['sizes'], sep = '\t')
 
 
-rule get_seq_sizes:
+rule get_seq_sizes: 
     input:
         raw = "fasta/sequences.fa",
         trimmed = "fasta/sequences_trim.fa" if config["trim_primers"] == True else "fasta/sequences.fa"
@@ -209,7 +205,7 @@ rule get_seq_sizes:
             cat {input.trimmed} \
                 | awk '$0 ~ ">" {{if (NR > 1) {{print c;}} c=0;printf substr($0,2,100) "\t"; }} $0 !~ ">" {{c+=length($0);}} END {{ print c; }}' \
                 > {output.length_trim}
-            
+        
         else
             # if not trimming, just merge infos
             touch {output.length_trim} # otherwise snakemake complains about missing output
@@ -218,12 +214,22 @@ rule get_seq_sizes:
         """
 
 
-# rule comparison_plot:
-    # input:
-    # output:
-    # message:
-    # conda:
-    # script:
+rule cluster_plot:
+    input:
+        sizes = "reports/cluster_size.tsv",
+    output:
+        size_plot = report("reports/cluster_size_distribution.pdf",
+                             caption="../report/clustersize_hist.rst",
+                             category="Clusters"),
+        taxid_size = report("reports/cluster_taxid_distribution.pdf",
+                             caption="../report/taxidsize_hist.rst",
+                             category="Clusters"),
+    message:
+        "Plotting cluster size distribution"
+    conda:
+        "../envs/tidyr.yaml"
+    script:
+        "../scripts/cluster_plots.R"
 
 
 # Result tables
@@ -327,5 +333,26 @@ rule get_consensus_level:
         "Determining consensus ranks"
     params:
         cons_level = config['consensus_level'],
+    conda:
+        "../envs/taxidtools.yaml"
     script:
         "../scripts/consensus_levels.py"
+
+
+rule comparison_plots:
+    input:
+        distance_table = "reports/distances.tsv",
+        cons = "reports/consensus.tsv",
+    output:
+        dist_plot = report("reports/barcodes_distance_plot.pdf",
+                      caption="../report/barcodes_distance_plot.rst",
+                      category="Pairwise-distances"),
+        consensus_plot = report("reports/consensus_plot.pdf",
+                      caption="../report/consensus_plot.rst",
+                      category="Consensus ranks determination"),
+    message:
+        "Plotting distances"
+    conda:
+        "../envs/tidyr.yaml"
+    script:
+        "../scripts/dist_plots.R"

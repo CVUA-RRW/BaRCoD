@@ -48,7 +48,7 @@ rule get_seqidlist:
     output:
         seqids = temp("db_filtering/seqids.txt"),
         binary = temp("db_filtering/seqids.acc"),
-        id_table  =temp("db_filtering/seq_table.tsv"),
+        id_table = temp("db_filtering/seq_table.tsv"),
     params:
         blast_db  =config["blast_db"],
         taxdb = config["taxdb"],

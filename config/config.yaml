@@ -11,14 +11,30 @@ threads: 1
 
 # Input BLAST database
 # Path to the BLAST database, including database basename but no extension
-blast_db: /path/to/BLAST_folder/db_base_name
+blast_db: /path/to/database/blast
 # Path to the BLAST taxonomy database (folder)
-taxdb: /path/to/taxdb_folder
+taxdb: /path/to/database/
 # Path to the nodes.dmp file
-rankedlineage_dmp: /path/to/rankedlineage.dmp
+rankedlineage_dmp:/path/to/database/rankedlineage.dmp
 # Path to the names.dmp file
-nodes_dmp: /path/to/nodes.dmp
+nodes_dmp: /path/to/database/nodes.dmp
 
 # Taxonomy filter
 #  Limit BLAST search to the taxids under the given node
 parent_node: 0
+
+# Primers
+primers: /path/to/primer.fasta
+primerBlast_coverage: 90
+primerBlast_identity: 80
+trim_primers: True
+
+# Barcode quality
+max_n: 0
+min_length: 60 
+
+# Clustering
+min_identity: 0.97
+
+# Consensus determination
+consensus_level: 1.0

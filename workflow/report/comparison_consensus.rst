@@ -1,1 +1,1 @@
-Barcode cluster achievable consensus rank 
+Barcode cluster achievable consensus rank at {{ snakemake.config["min_identy"] }} identity level.

@@ -1,1 +1,1 @@
-Pairwise distance between barcodes clusters
+Pairwise distance between barcodes clusters. Only pairs with {{ snakemake.config["min_identy"] }} identity or more are displayed.
