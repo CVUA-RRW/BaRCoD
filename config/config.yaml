@@ -15,7 +15,7 @@ blast_db: /path/to/database/blast
 # Path to the BLAST taxonomy database (folder)
 taxdb: /path/to/database/
 # Path to the nodes.dmp file
-rankedlineage_dmp:/path/to/database/rankedlineage.dmp
+rankedlineage_dmp: /path/to/database/rankedlineage.dmp
 # Path to the names.dmp file
 nodes_dmp: /path/to/database/nodes.dmp
 
@@ -37,4 +37,4 @@ min_length: 60
 min_identity: 0.97
 
 # Consensus determination
-consensus_level: 1.0
+consensus_level: 0.51
