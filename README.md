@@ -73,6 +73,12 @@ If no distance is available for a given taxid it may be that:
 
 To differentiate between these two option check the output of the Barcode recovery process.
 
+### Consensus determination
+
+For each cluster a consensus rank will be determined. This reflects the expected consensus
+that can be reached for this sequence considering all sequences within the given identtity 
+threshold and with a given agreement level.
+
 ## Credits
 
 This would not be possible without: 
