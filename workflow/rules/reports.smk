@@ -22,10 +22,10 @@ rule recovery_report:
         "Collecting barcode recovery stats"
     shell:
         """
-        nseq=$(wc -l {input.sequences})
-        ntaxid=$(cut -f2 {input.sequences} | sort | uniq -u | wc -l)
-        nbarcode=$(wc -l {input.barcodes})
-        ntaxidbarcode=$(cut -f2 {input.barcodes} | sort | uniq -u | wc -l)
+        nseq=$(wc -l {input.sequences} | cut -d" " -f1)
+        ntaxid=$(cut -f2 {input.sequences} | sort -u | wc -l)
+        nbarcode=$(wc -l {input.barcodes} | cut -d" " -f1)
+        ntaxidbarcode=$(cut -f2 {input.barcodes} | sort -u | wc -l)
         echo "DB entries\tTotal taxids\tBarcodes recovered\tTaxids represented" > {output.report}
         echo $nseq\t$ntaxid\t$nbarcode\t$ntaxidbarcode >>  {output.report}
         """

@@ -23,7 +23,7 @@ def main(table, taxonomy, outfile, cons_level):
         
         new = sub.head(1)[["query_name", "query_taxid", "query_size", "query_relsize"]]
         
-        for i in range(0,4):
+        for i in range(0,max(df['distance'])+1):
             taxids = list(sub[sub["distance"] <= i]["target_taxid"])
             taxids.extend(list(sub.head(1)["query_taxid"]))
             rank = get_consensus_rank(tax, taxids, cons_level)
