@@ -49,7 +49,7 @@ flanked sequence:           ========
 
 primer matches:      -> <-  ->    <-  ->
 database sequence: =========================
-flanked sequence:    =====       
+flanked sequence:    =====  ========
 
 primer matches:      <- <-  ->    ->  ->
 database sequence: =========================

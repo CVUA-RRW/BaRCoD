@@ -10,7 +10,7 @@ def find_amplicon_pos(df, min_length, max_length):
     Find amplicon position from a list of matches.
     Returns a tuple (start, stop).
     
-    Will return the first occurence of a match on the + strand followed by a match on the minus strand.
+    Will yield occurences of matches on the + strand followed by a match on the minus strand.
     """
     dfs = df.sort_values(by='start')
     start = None
@@ -20,8 +20,11 @@ def find_amplicon_pos(df, min_length, max_length):
         elif row['strand'] == 'minus' and start:
             end = row['start'] # blast reports end as the 3' position of the primer on the reverse strand
             length = int(end) - int(start)
+            
             if length >= min_length and length <= max_length:
-                return (start, end, length)
+                yield (start, end, length)
+            
+            start = None  # find next matching seq
 
 
 def main(blastfile, reportout, min_length, max_length):
@@ -34,8 +37,7 @@ def main(blastfile, reportout, min_length, max_length):
 
     for s in set(df.seqid):
         sub_df = df.loc[df['seqid'] == s]
-        pos = find_amplicon_pos(sub_df, min_length, max_length)
-        if pos:
+        for pos in find_amplicon_pos(sub_df, min_length, max_length):
             df_s = pd.DataFrame([{'seqid' : s,
                                     'taxid' : list(sub_df['taxid'])[0],
                                     'start' : pos[0],
