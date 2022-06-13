@@ -98,12 +98,11 @@ rule filter_seq:
         "Filtering ambiguous sequences"
     params:
         max_n = config["max_n"],
-        min_length = config["min_length"],
     conda:
         "../envs/cutadapt.yaml"
     shell:
         """
-        cutadapt --max-n {params.max_n} --minimum-length {params.min_length} {input.fasta} > {output.fasta}
+        cutadapt --max-n {params.max_n} {input.fasta} > {output.fasta}
         """
 
 

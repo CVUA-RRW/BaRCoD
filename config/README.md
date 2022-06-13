@@ -17,5 +17,6 @@ To configure the workflow, modifiy `config/config.yaml` according to your needs.
 | trim_primers | Should primers be trimmed before calculating the hamming distances (True or False) |
 | max_n | Maximum number of N nulceotide allowed per barcode |
 | min_length | Minimal barcode length |
+| max_length | Maximal barcode length |
 | min_identity | Minimal identity level to calculate hamming distance |
 | consensus_level | Proportion of agreement needed to reach a taxonomic consensus (0.51 to 1.0) |

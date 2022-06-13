@@ -5,7 +5,7 @@
 import pandas as pd
 
 
-def find_amplicon_pos(df):
+def find_amplicon_pos(df, min_length, max_length):
     """
     Find amplicon position from a list of matches.
     Returns a tuple (start, stop).
@@ -19,10 +19,12 @@ def find_amplicon_pos(df):
             start = row['start']
         elif row['strand'] == 'minus' and start:
             end = row['start'] # blast reports end as the 3' position of the primer on the reverse strand
-            return (start, end)
+            length = int(end) - int(start)
+            if length >= min_length and length <= max_length:
+                return (start, end, length)
 
 
-def main(blastfile, reportout):
+def main(blastfile, reportout, min_length, max_length):
     df = pd.read_csv(blastfile, 
                         sep="\t", 
                         header=0)
@@ -32,17 +34,18 @@ def main(blastfile, reportout):
 
     for s in set(df.seqid):
         sub_df = df.loc[df['seqid'] == s]
-        pos = find_amplicon_pos(sub_df)
+        pos = find_amplicon_pos(sub_df, min_length, max_length)
         if pos:
             df_s = pd.DataFrame([{'seqid' : s,
                                     'taxid' : list(sub_df['taxid'])[0],
                                     'start' : pos[0],
                                     'end' : pos[1],
-                                    'length' : int(pos[1]) - int(pos[0])
+                                    'length' : pos[2],
                                     }])
             dfout = pd.concat([dfout, df_s])
     dfout.to_csv(reportout, sep='\t', header=False, index=False) 
 
 
 if __name__ == '__main__':
-    main(snakemake.input['blast'], snakemake.output['positions'])
+    main(snakemake.input['blast'], snakemake.output['positions'],
+         snakemake.params['min_length'], snakemake.params['max_length'])

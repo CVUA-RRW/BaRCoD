@@ -126,6 +126,9 @@ rule extract_barcodes:
         positions = "primer_blaster/barcode_pos.tsv",
     message: 
         "Extracting barcodes coordinates"
+    params:
+        min_length = config["min_length"], 
+        max_length = config["max_length"],
     script:
         "../scripts/extract_barcodes.py"
 
