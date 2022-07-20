@@ -106,10 +106,14 @@ rule find_primer_matches:
         """
         export BLASTDB={params.taxdb}
         
+        # for params see Primer-BLAST paper
         blastn -db {params.blast_db} \
             -query {input.primers} \
             -task blastn-short \
             -seqidlist {input.binary} \
+            -evalue 30000 \
+            -word_size 7 \
+            -penalty -1 -reward 1 \
             -outfmt '6 saccver qseqid staxid sstart send length sstrand mismatch' \
             -ungapped -qcov_hsp_perc {params.cov} -perc_identity {params.identity} \
             -subject_besthit \
@@ -118,12 +122,24 @@ rule find_primer_matches:
                 | sort -k1 | sed '1 i\seqid\tquery\ttaxid\tstart\tend\tlength\tstrand\tmismatch' > {output.blast}
         """
 
-
-rule extract_barcodes:
+checkpoint split_blast:
     input:
         blast = "primer_blaster/primer_blast.tsv",
     output:
-        positions = "primer_blaster/barcode_pos.tsv",
+        dir = directory("primer_blaster/splitted/blast/"),
+    message:
+        "Scattering primer-BLAST results"
+    shell:
+        """
+        mkdir {output.dir}
+        tail -n +2 {input.blast} | awk -F"\t" '{{print>"{output.dir}/"substr($1,1,2)}}'  # splits in files named after first char
+        """
+
+rule extract_barcodes:
+    input:
+        blast = "primer_blaster/splitted/blast/{seqid}",
+    output:
+        positions = "primer_blaster/splitted/positions/{seqid}",
     message: 
         "Extracting barcodes coordinates"
     params:
@@ -135,9 +151,9 @@ rule extract_barcodes:
 
 rule extract_barcodes_seq:
     input:
-        positions = "primer_blaster/barcode_pos.tsv",
+        positions = "primer_blaster/splitted/positions/{seqid}",
     output:
-        sequences = "barcodes/{name}.fasta",
+        sequences = "primer_blaster/splitted/barcodes/{seqid}",
     message: 
         "Extracting barcode sequences"
     params:
@@ -149,6 +165,8 @@ rule extract_barcodes_seq:
         """
         export BLASTDB={params.taxdb}
         
+        touch {output.sequences}
+        
         while IFS=$'\t' read -r acc tax start stop length; do
             blastdbcmd -entry $acc \
                 -db {params.blast_db} \
@@ -158,6 +176,30 @@ rule extract_barcodes_seq:
         """
 
 
+rule gather_seqs:
+    input:
+        seqs = agregate_seqs,
+    output:
+        seqs = f"barcodes/{generate_db_name()}.fasta",
+    message:
+        "Gathering barcodes sequences"
+    shell:
+        """
+        cat {input.seqs} > {output.seqs}
+        """
+
+
+rule gather_pos:
+    input:
+        barcodes = aggregate_barcodes,
+    output:
+        barcodes = "primer_blaster/barcode_pos.tsv",
+    message:
+        "Gathering barcode positions"
+    shell:
+        """
+        cat {input.barcodes} > {output.barcodes}
+        """
 # Making a BLAST database
 
 

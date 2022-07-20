@@ -25,8 +25,8 @@ parent_node: 0
 
 # Primers
 primers: /path/to/primer.fasta
-primerBlast_coverage: 90
-primerBlast_identity: 80
+primerBlast_coverage: 80
+primerBlast_identity: 65
 trim_primers: True
 
 # Barcode quality

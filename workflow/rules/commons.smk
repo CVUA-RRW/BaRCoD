@@ -12,6 +12,15 @@ def get_taxid_fasta_list(wildcards):
     return expand("fastadump/{fasta}.fa",
                   fasta=glob_wildcards(os.path.join(checkpoint_output, "{fasta}.fa")).fasta)
 
+def aggregate_barcodes(wildcards):
+    checkpoint_output = checkpoints.split_blast.get(**wildcards).output['dir']
+    return expand("primer_blaster/splitted/positions/{seqid}",
+                  seqid=glob_wildcards(os.path.join(checkpoint_output, "{seqid}")).seqid)
+
+def agregate_seqs(wildcards):
+    checkpoint_output = checkpoints.split_blast.get(**wildcards).output['dir']
+    return expand("primer_blaster/splitted/barcodes/{seqid}",
+                  seqid=glob_wildcards(os.path.join(checkpoint_output, "{seqid}")).seqid)
 
 def generate_db_name(wildcards=None):
     path, dbname = os.path.split(config["blast_db"])

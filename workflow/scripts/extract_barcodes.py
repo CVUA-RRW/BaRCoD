@@ -30,7 +30,7 @@ def find_amplicon_pos(df, min_length, max_length):
 def main(blastfile, reportout, min_length, max_length):
     df = pd.read_csv(blastfile, 
                         sep="\t", 
-                        header=0)
+                        names=['seqid','query','taxid','start','end','length','strand','mismatch'])
 
     # empty df to store amplicon informations
     dfout = pd.DataFrame(columns = ['seqid', 'taxid', 'start', 'end', 'length'])
