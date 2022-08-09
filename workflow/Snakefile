@@ -31,7 +31,7 @@ rule all:
         "reports/primer_sites_distribution.pdf",
         "reports/taxid_barcodes_distribution.pdf",
         "reports/barcode_size_distribution.pdf",
-        "reports/taxid_wo_barcode.tsv",
+        "reports/sequences_wo_barcode.tsv",
         "reports/dereplication.tsv",
         "reports/cluster_size.tsv",
         "reports/distances.tsv",

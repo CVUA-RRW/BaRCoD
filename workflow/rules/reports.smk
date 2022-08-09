@@ -97,8 +97,8 @@ rule missing_taxids:
         sequences = "db_filtering/seq_table.tsv",
         barcodes =  "primer_blaster/barcode_pos.tsv",
     output:
-        missing = "reports/taxid_wo_barcode.tsv",
-        missing_no_deets = temp("reports/taxid_wo_barcode_nosciname.tsv"),
+        missing = "reports/sequences_wo_barcode.tsv",
+        missing_no_deets = temp("reports/sequences_wo_barcode_nosciname.tsv"),
     message:
         "Finding taxids without barcode"
     shell:
@@ -325,6 +325,7 @@ rule get_consensus_level:
     input:
         distance_table = "reports/distances.tsv",
         tax = "common/taxonomy.json",
+        clusters = "reports/cluster_size.tsv",
     output:
         cons = report("reports/consensus.tsv",
                       caption="../report/comparison_consensus.rst",

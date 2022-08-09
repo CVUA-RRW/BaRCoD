@@ -200,6 +200,8 @@ rule gather_pos:
         """
         cat {input.barcodes} > {output.barcodes}
         """
+
+
 # Making a BLAST database
 
 
