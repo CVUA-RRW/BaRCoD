@@ -7,7 +7,7 @@ import taxidTools as txd
 
 def main(taxid_file, parent, output, taxonomy):
 
-    tax = txd.load(taxonomy)
+    tax = txd.read_json(taxonomy)
 
     with open(taxid_file, "r") as fin:
         db_entries = set(fin.read().splitlines()[1:])
@@ -19,7 +19,7 @@ def main(taxid_file, parent, output, taxonomy):
                     fout.write(taxid + "\n")
                 else:
                     pass
-            except KeyError:
+            except txd.InvalidNodeError:
                 pass  # Ignoring missing taxids as they are either not in the 
                 # taxdumps or actively filtered by the user.
 

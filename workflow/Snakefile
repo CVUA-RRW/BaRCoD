@@ -42,6 +42,8 @@ rule all:
         "reports/cluster_taxid_distribution.pdf",
         "reports/barcodes_distance_plot.pdf",
         "reports/consensus_plot.pdf",
+        "reports/conspecific_prob_table.tsv",
+        "reports/conspecific_prob.pdf",
 
 
 # Workflow ------------------------------------------------------------------------------------------------------------------

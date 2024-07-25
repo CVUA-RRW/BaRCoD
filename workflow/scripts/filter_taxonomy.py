@@ -5,8 +5,8 @@
 import taxidTools as txd
 
 
-def main(nodes, lineage, taxid, out):
-    tax = txd.Taxonomy.from_taxdump(nodes, lineage)
+def main(nodes, lineage, merged, taxid, out):
+    tax = txd.read_taxdump(nodes, lineage, merged)
     tax.prune(taxid)
     tax.write(out)
 
@@ -14,5 +14,6 @@ def main(nodes, lineage, taxid, out):
 if __name__ == '__main__':
     main(snakemake.params['nodes'],
          snakemake.params['rankedlineage'],
+         snakemake.params['merged'],
          snakemake.params['taxid'],
          snakemake.output['tax'])

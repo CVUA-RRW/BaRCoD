@@ -252,6 +252,7 @@ rule pairwise_dist:
         dfsize = pd.read_csv(input.sizes, sep = '\t')
         dfout = pd.DataFrame({"query": dfaln["query"],
                               "target": dfaln["target"],
+                              "id": dfaln["id"],
                               "distance": dfaln["mismatch"] + dfaln["gaps"]})
         dfout = dfout.join(dfinfo.set_index("seqid"), 
                             on = "query", how = "inner").rename(columns={'taxid' : 'query_taxid', 
@@ -267,9 +268,23 @@ rule pairwise_dist:
                                                                          'rel_cluster_size' : 'target_relsize'})
         dfout = dfout[['query', 'query_taxid', 'query_name', 'query_size', 'query_relsize',
                         'target', 'target_taxid', 'target_name', 'target_size', 'target_relsize',
-                        'distance']]
+                        'id', 'distance']]
         dfout.to_csv(output['dist'], sep='\t', index=False)
 
+rule conspecific_probability:
+    input:
+        distance_table = "reports/distances.tsv",
+    output: 
+        conspecific_prob_table = "reports/conspecific_prob_table.tsv",
+        conspecific_plot = "reports/conspecific_prob.pdf",
+    params:
+        id = config["min_identity"],
+    message: 
+        "Calculating conspecific probability"
+    conda:
+        "../envs/tidyr.yaml"
+    script:
+        "../scripts/conspecific_prob.R"
 
 rule seq_size_table:
     input:

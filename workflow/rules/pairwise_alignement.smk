@@ -159,5 +159,5 @@ rule pariwise_alignement:
                 --userfields query+target+id+mism+gaps+alnlen+qlo+qhi+ql+tlo+thi+tl \
                 --alnout {output.align}
                 
-        sed -i '1 i\query\ttarget\tid\tmismatch\tgaps\taln_length\tqstart\tqend\tqlength\ttstart\ttend\ttlength' {output.align}
+        sed -i '1 i\query\ttarget\tid\tmismatch\tgaps\taln_length\tqstart\tqend\tqlength\ttstart\ttend\ttlength' {output.table}
         """

@@ -4,4 +4,5 @@ channels:
     - bioconda
     - defaults
 dependencies:
-  - taxidtools=2.2.3
+  - taxidtools=3.1.1
+  - pandas=2.2.2

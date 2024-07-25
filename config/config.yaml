@@ -18,6 +18,8 @@ taxdb: /path/to/database/
 rankedlineage_dmp: /path/to/database/rankedlineage.dmp
 # Path to the names.dmp file
 nodes_dmp: /path/to/database/nodes.dmp
+# Path to the merged.dmp file
+merged_dmp: /path/to/database/merged.dmp
 
 # Taxonomy filter
 #  Limit BLAST search to the taxids under the given node

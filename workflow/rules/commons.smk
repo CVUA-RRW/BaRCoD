@@ -37,6 +37,7 @@ rule prep_taxonomy:
     params:
         nodes=config["nodes_dmp"],
         rankedlineage=config["rankedlineage_dmp"],
+        merged=config["merged_dmp"],
         taxid=config["parent_node"],
     message:
         "Preparing taxonomy definitions"

@@ -16,7 +16,7 @@ def main(table, taxonomy, clusters, outfile, cons_level):
     df["entries"] = df["query"] + df["query_size"]
 
     dfout = pd.DataFrame()
-    tax = txd.load(taxonomy)
+    tax = txd.read_json(taxonomy)
 
     max_dis = max(df['distance'])+1
 
