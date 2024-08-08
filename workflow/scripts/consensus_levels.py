@@ -7,7 +7,7 @@ import taxidTools as txd
 
 
 def get_consensus_rank(tax, idlist, cons_level):
-    return tax.consensus([str(t) for t in idlist], cons_level).rank
+    return tax.consensus([str(t) for t in idlist], cons_level, ignore_missing=True).rank
 
 
 def main(table, taxonomy, clusters, outfile, cons_level):
