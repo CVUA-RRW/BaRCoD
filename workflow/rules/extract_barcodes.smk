@@ -198,7 +198,13 @@ rule gather_pos:
         "Gathering barcode positions"
     shell:
         """
-        cat {input.barcodes} > {output.barcodes}
+        cat {input.barcodes} \
+            | tr " " "@" \
+            | awk 'BEGIN {OFS="\n";ORS=RS=">"}{split($1,a,"@");$1="";suffix=names[a[1]] ? "-" names[a[1]] : "";print a[1] suffix $0, "\n";names[a[1]]++;}' \
+            | tr "@" " " \
+            | sed '/^[[:space:]]*$/d' \
+            | sed '/^>[[:space:]]*$/d' \
+            > {output.barcodes}
         """
 
 
