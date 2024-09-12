@@ -200,7 +200,7 @@ rule gather_pos:
         """
         cat {input.barcodes} \
             | tr " " "@" \
-            | awk 'BEGIN {OFS="\n";ORS=RS=">"}{split($1,a,"@");$1="";suffix=names[a[1]] ? "-" names[a[1]] : "";print a[1] suffix $0, "\n";names[a[1]]++;}' \
+            | awk 'BEGIN {{OFS="\n";ORS=RS=">"}{split($1,a,"@");$1="";suffix=names[a[1]] ? "-" names[a[1]] : "";print a[1] suffix $0, "\n";names[a[1]]++;}}' \
             | tr "@" " " \
             | sed '/^[[:space:]]*$/d' \
             | sed '/^>[[:space:]]*$/d' \
